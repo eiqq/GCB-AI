@@ -67,6 +67,9 @@
     "\personal\파오캐\plugins\Skript\scripts\z_weapon":
         "공용총기" 모음이다 'APEXWeaponSelector'스킬을 공유하는 캐릭터의 총기 는 여기 폴더에 대부분 구현되어있지만. 특정 캐릭터 전용 총기는 그 캐릭터 폴더(z폴더 내의) 에 구현되어있다
 
+    "\personal\파오캐\plugins\Skript\scripts\z_npc":
+        "인게임 non-player, interactable 엔티티" 모음이다. 
+
     나머지 폴더는 적당히 이해하면 되며, 캐릭터 추가에 핵심적이지 않다. a,z,y 폴더가 가장 핵심이며 "캐릭터 추가도움, 제작된 캐릭터 코드 검토" 등의 질문에는 이 GCBAPI와 a,z(다른 캐릭터와 코드 비교 포함),y 핵심폴더 위주로 검토 하면 된다.
 
 리소스팩 수정 시:
