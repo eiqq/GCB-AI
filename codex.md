@@ -17,7 +17,7 @@
     위 두개 폴더는 별도 github repo이다.
 
     "별도 파일" 폴더는 유저가 원본이랑 별개로 캐릭터 추가 시 사용할 리소스같은거 적당히 모두 넣는곳이다.
-    "GCB-resourcepack" 폴더는 리소스팩 정본 github repo(github.com/eiqq/GCB-resourcepack)의 클론이다. 루트가 그대로 단일 리소스팩(pack.mcmeta+assets, 텍스처 veryHigh+사운드 병합)이며, 리소스팩 수정은 여기서 하고 커밋한다. zip은 커밋 금지. 플레이어 배포는 여기서 텍스처/사운드를 분리·압축해 Dropbox에 올리는 방식(GCBResourcePackManager 링크 고정)이다.
+    "GCB-resourcepack" 폴더는 리소스팩 정본 github repo(github.com/eiqq/GCB-resourcepack)의 클론이다. 루트가 그대로 단일 리소스팩(pack.mcmeta+assets, 텍스처 veryHigh+사운드 병합)이며, 리소스팩 수정은 여기서 하고 커밋한다. zip은 커밋 금지. 플레이어 배포는 서버 플러그인 GCBResourcePackManager가 이 팩에서 품질별 zip을 생성해 GitHub Release(eiqq/GCB-resourcepack-dist)에 자동 업로드하고 config URL·SHA-1을 갱신하는 방식이다. 포크/창작 버전에서 자기 팩을 배포하는 법은 GCB-resourcepack README의 "배포" 항목을 따른다.
     main 브랜치는 본서버용만. 창작/개조버전 캐릭터 리소스는 main에 푸시하지 말고 자기 이름(또는 창작물 이름)의 branch를 파서 거기에 전부 넣는다.
     "resourcepack" 폴더는 서버 리소스팩 배포본 zip 보관용이다(레거시 참고용). 이펙트추가,무기추가,사운드추가,캐릭터 일러스트 수정의 자료구조 기준은 이제 GCB-resourcepack repo다.
 
@@ -28,7 +28,7 @@
     사용자에게 "실제 서버 폴더 경로" 를 묻는다.
     GCBAPI, Personal, GCB-resourcepack의 업데이트가 있는지 git으로 확인 한다.
     확인시 업데이트가 없으면 아무것도 안 물어도 되고, 있다면 사용자에게 위 업데이트가 있는데 다운로드 받을 지 말지 묻는다.
-    리소스팩 정본은 GCB-resourcepack repo이므로 별도 다운로드는 불필요하다. 배포본(Dropbox)과의 대조가 필요할 때만
+    리소스팩 정본은 GCB-resourcepack repo이므로 별도 다운로드는 불필요하다. 배포본(GitHub Release)과의 대조가 필요할 때만
     "\personal\파오캐\plugins\GCBResourcePackManager" config의 VERY_HIGH 와 SOUND 링크로 zip을 받아 비교한다.
 
     GCBAPI, Personal 은 원본으로 유지해야 한다. 말 그대로 참고용 백과사전 정도로 취급해야 한다.
