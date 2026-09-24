@@ -88,6 +88,37 @@
 
     즉 기본 리소스팩 + 추가 리소스팩 을 같이 장착하면 되도록 이 "추가 리소스팩" 은 원본에 없는 부분만 남기면 된다.
 
+#--------------------------------------
+모델 투명도(실시간 반투명) 플래그 — 26.3 리소스팩 전용:
+    왜 필요한가:
+        26.3 클라는 면(quad)마다 그 면 UV 영역의 텍스처 알파로 렌더 방식을 정한다. 텍스처 알파가 0/255 뿐이면 cutout 으로 그려져서
+        스크립트로 투명도를 줘도(틴트 알파) "거의 0이면 안 보임 / 아니면 불투명" 으로만 동작하고 서서히 흐려지지 않는다.
+        텍스처에 원래 반투명 픽셀이 있는 면은 자동으로 반투명이라 플래그가 필요 없다.
+
+    켜는 법 (모델 JSON 의 textures 값을 문자열 → 객체로. 텍스처 png 는 건드리지 않음):
+        켜기:  "textures": { "0": { "sprite": "modelengine:entity/models/ellen", "force_translucent": true } }
+        끄기:  "textures": { "0": "modelengine:entity/models/ellen" }
+        "particle": "#0" 같은 # 참조는 그대로 둔다.
+        투명도는 틴트 알파로 주기 때문에 모델 면에 tintindex 가 있어야 하고, items 정의에 틴트가 있어야 한다.
+            - GCB 이펙트(assets/gcb/items/effect/...)는 이미 포션 틴트(tints: minecraft:potion) + 전 면 tintindex 라 플래그만 켜면 된다.
+              이펙트는 assets/gcb/models/item/effect/<캐릭터>/<이펙트>/<프레임>.json 프레임 파일 전부에 넣는다.
+            - 코어 모델은 틴트가 없어서 전 면 tintindex 0 + textures 플래그 + items/core/<키>.json 포션 틴트(기본 흰색 16777215)를 같이 넣는다
+              (_tools/install_cores.py 의 TRANSLUCENT 목록에 키를 넣고 설치하면 자동). 틴트용 복사 모델은 만들지 않는다.
+            - ModelEngine 모델은 ME 가 팩을 다시 생성하면 원복되므로, 배포 팩은 GCBResourcePackManager config 의 force_translucent_models(모델 id 목록)에 넣는다.
+              팩 생성 때 assets/modelengine/models/<id>/ 아래 JSON 전부(서브모델 포함)에 자동으로 넣어 준다.
+              개발용 클라 폴더 팩에는 _tools/me_force_translucent.py <모델이름> (끄기 --off) 로 넣고, ME 동기화 뒤에는 다시 실행.
+        적용 후 클라에서 F3+T.
+
+    스크립트 사용법 (플래그와 짝):
+        Effect_setOpacity(<이펙트 엔티티>, 0~1)         : ItemEffect(이펙트)·일반 ItemDisplay·createReal 분신 모두
+        MEAPI_setOpacity(<엔티티>[, <모델id>], 0~1)     : 살아 있는 ModelEngine 모델
+        다면체 이펙트(PolyEffect)는 별개 방식(CMD 알파 단계)이라 플래그가 필요 없다.
+
+    주의:
+        반투명 렌더는 비용이 조금 늘고, 알파 255 여도 뒤의 반투명 이펙트가 미세하게 비칠 수 있다.
+        그래서 실시간 투명도 조절이 실제로 필요한 모델만 하나씩 켠다. 일괄 적용 금지.
+        1.21.x 클라는 객체형 textures 를 못 읽으므로 1.21.x 팩에는 넣지 않는다.
+
 캐릭터 추가,스켈레톤 생성 도움 요청시 지시문:
     일단 추가할 캐릭터의 이름과, 역할군을 묻는것으로 시작(역할군 정보를 토대로 기본 체력이나 공격력 스텟을 적당히 넣는다, 상세한것은 사용자가 할것)
     z폴더에 새 번호 폴더를 만드는것으로 시작
