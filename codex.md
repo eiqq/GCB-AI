@@ -4,6 +4,22 @@
 대화 시작 시 GCB-AI를 git pull 하고, repo의 codex.md가 이 파일과 다르면 repo 버전으로 이 파일(자비스\codex.md)을 스스로 업데이트하고 다시 읽는다.
 반대로 세션 중 이 파일을 수정했으면 GCB-AI에도 복사해 커밋·푸시한다.
 
+
+현재 경로 (2026-09-25 26.3 본서버 전환):
+    본서버: C:/Users/a4san/Desktop/서버/파오캐 (Minecraft 26.3)
+    작업 서버: C:/Users/a4san/Desktop/서버/자비스/파오캐 (Minecraft 26.3)
+    API 실제 개발 소스: C:/Users/a4san/Desktop/intelij/GCBAPI (자비스/GCBAPI는 참고 클론)
+    모드 소스: C:/Users/a4san/Desktop/intelij/GCB-mod
+    리소스팩 정본: 자비스/GCB-resourcepack, GitHub eiqq/GCB-resourcepack main
+    리소스팩 생성 전용: C:/Users/a4san/Desktop/서버/파오캐리팩생성용
+    실제 구동 서버의 GCBResourcePackManager/base에는 소스를 복사하지 않는다. 생성 전용 폴더만 사용한다.
+    이전 서버와 당시 배포팩: C:/Users/a4san/Desktop/서버/파오캐구버전/파오캐1.21.8
+    personal·API·모드의 main은 26.3, 21.8 브랜치는 구버전. 리소스팩 버전 정본은 main만 사용한다.
+    personal backup-26.3-20260925 태그와 파오캐구버전/26.3개발백업-20260925에 전환 전 개발 데이터를 보존했다.
+    포스트이펙트 카탈로그: 작업 서버/코드 템플릿/포스트이펙트목록.html (4열, 클릭 확대, GIF 유지).
+    GUI 뒤로가기는 GCBAPI의 부모 이력 복원으로 수정 완료. Skript의 wait/openInventory 우회는 제거했다. 존야 완료.
+    사용자가 경로를 이미 지정한 세션에서는 다시 묻지 않는다.
+
 이 프로젝트는 "게임캐릭터배틀" 마인크래프트 서버이다
 이 폴더 자체는 github repo가 아니다. 별도 폴더에 서버 소스파일들을 모아둔것.
 대화 시작시 "별도 파일" 폴더가 없다면 만들어 둘것 이것은 사용자가 추가로 넣고싶은 파일들 지정하는것.
