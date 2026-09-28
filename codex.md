@@ -192,6 +192,33 @@ Skript 주의사항:
     표시제목은 유명 영어 원제 OST 는 번역 없이 원제 그대로. "메탈커버" 같은 부연 설명은 붙이지 않는다.
 
 #--------------------------------------
+이모티콘(디시콘) 세트 추가 절차:
+    세트 = 원본 이미지 폴더 하나. 이미지 번호 = 파일명 정렬 순서 0..N-1 (gif 움짤 가능).
+    작업 폴더 = 자비스. 도구 = _tools/dccon_convert.py, _tools/dccon_install.py.
+    구조: 세트 정의 = 파오캐/plugins/Skript/scripts/Collectibles/dccon/sets/<slug>.sk, 목록·창·HUD = Collectibles/dccon/dccon.sk.
+
+    1. slug 정하기: 영소문자·숫자·_ (예: baki_musashi). 표시 이름은 기본 폴더 이름.
+    2. 변환: python _tools/dccon_convert.py "<원본 폴더>" <slug> [--name 표시이름]
+        - output/dccon/out 에 128px 이미지 + 움짤 .mcmeta, output/dccon/sheet_<slug>.png(번호 시트), output/dccon/mapping.csv 갱신.
+        - sets/<slug>.sk 뼈대 자동 생성(없을 때만: count 자동, thumb 0, price 5000).
+        - 알파는 전부 255 로 만든다(팩 셰이더의 짝수 알파 규칙 회피). 투명 부분은 흰 배경, 정사각이 아니면 가운데 패딩 — 경고로 알려준다.
+    3. 시트 확인: sheet_<slug>.png 를 직접 보고 번호별 그림을 확인. 부적절해 보이는 이미지는 번호를 사용자에게 보고. 대표 썸네일(thumb)은 지정이 없으면 세트를 잘 드러내는 한 장.
+    4. 팩 설치: python _tools/dccon_install.py
+        - 클라 팩 사본(GCB-26.3)·정본 GCB-resourcepack·리팩생성용 base/gcb 에 텍스처·모델·items 를 쓴다.
+        - 전 세트를 다시 설치하므로 여러 번 돌려도 된다. count 불일치 경고가 나오면 세트 파일 count 확인.
+    5. 세트 파일 채우기: sets/<slug>.sk 의 name·thumb·price (무료 = 0).
+    6. 목록 등록: dccon.sk 의 Dccon_sets() 에 "<slug>" 추가. 이모티콘 창의 표시 순서 = 이 순서.
+    7. 리로드·확인(RCON): sk reload Collectibles/dccon/sets/<slug>.sk → sk reload Collectibles/dccon/dccon.sk
+        → papi parse --null %Dccon_<slug>.count% 가 장수를 돌려주면 성공. 클라에서 F3+T 후 /이모티콘 상점에서 확인.
+    8. 배포: GCB-resourcepack 커밋·푸시 → 리소스팩 생성·업로드(파오캐리팩생성용) → 서버 config URL·SHA-1 갱신 → personal·본서버에 Skript 파일 반영.
+
+    주의:
+        기존 세트의 이미지 번호는 절대 바꾸지 않는다. 플레이어 장착 데이터가 "세트:번호" 로 저장되어, 번호가 밀리면 다른 그림이 나간다.
+        기존 세트에 이미지를 더할 때는 새 파일명이 기존 파일 뒤로 정렬되게 이름을 붙이고 다시 변환한다.
+        세트 삭제 = sets/<slug>.sk 삭제 + Dccon_sets() 에서 제거(정의 없는 세트는 자동으로 미보유 처리).
+        output/dccon 의 변환본이 사실상 원본이다. 원본 폴더를 치워도 되지만 output/dccon 은 지우지 않는다.
+
+#--------------------------------------
 Skript 관용구 (직접 만들지 말고 팩의 기존 도구를 쓸 것):
     새 로직을 짜기 전에 비슷한 일을 하는 증강(y_augments)/캐릭터(z)/유틸(a) 파일을 먼저 grep 해서 기존 관용구를 따를 것. 자체 구현은 최후 수단.
 
