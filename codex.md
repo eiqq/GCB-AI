@@ -54,7 +54,7 @@
     GCBAPI 코드구조와 기능들을 학습한다. 
 
 특정 캐릭터의 특징:
-    캐릭터 41, 16 은 미완성이니 레퍼런스로 하면 안된다.
+    캐릭터 16 은 미완성이니 레퍼런스로 하면 안된다.
     32,68,70 은 '3인칭캐릭터' 이며 기존캐릭터와 차원이 다른 복잡함이니, 유저가 직접 "나는 3인칭 캐릭터를 제작하고싶어" 라고 말하는게 아니면 레퍼런스론 하지마라.
 
 
@@ -124,6 +124,13 @@
               팩 생성 때 assets/modelengine/models/<id>/ 아래 JSON 전부(서브모델 포함)에 자동으로 넣어 준다.
               개발용 클라 폴더 팩에는 _tools/me_force_translucent.py <모델이름> (끄기 --off) 로 넣고, ME 동기화 뒤에는 다시 실행.
         적용 후 클라에서 F3+T.
+
+    블록벤치 (필수 플러그인 — 블록벤치가 공식 지원하기 전까지):
+        블록벤치(5.2.1 기준)는 객체형 textures 를 읽지 못해서, 플래그가 켜진 모델을 그냥 열면 큐브가 전부 사라진 빈 파일로 열린다.
+        그래서 GCB-AI 리포의 tools/blockbench/gcb_force_translucent.js 플러그인이 있어야 연다 (로컬 사본: 자비스\_toolslockbench\gcb_force_translucent.js).
+        설치: Blockbench → File → Plugins → Load Plugin from File → gcb_force_translucent.js
+        동작: 열 때 객체형을 문자열로 바꿔 읽고 플래그는 텍스처 속성에 기억, 저장(내보내기) 때 플래그 켜진 텍스처를 다시 객체형으로 쓴다.
+        텍스처 우클릭 메뉴 "Force Translucent (26.x)" 로 플래그를 켜고 끈다.
 
     스크립트 사용법 (플래그와 짝):
         Effect_setOpacity(<이펙트 엔티티>, 0~1)         : ItemEffect(이펙트)·일반 ItemDisplay·createReal 분신 모두
@@ -202,6 +209,7 @@ Skript 주의사항:
         - output/dccon/out 에 128px 이미지 + 움짤 .mcmeta, output/dccon/sheet_<slug>.png(번호 시트), output/dccon/mapping.csv 갱신.
         - sets/<slug>.sk 뼈대 자동 생성(없을 때만: count 자동, thumb 0, price 5000).
         - 알파는 전부 255 로 만든다(팩 셰이더의 짝수 알파 규칙 회피). 투명 부분은 흰 배경, 정사각이 아니면 가운데 패딩 — 경고로 알려준다.
+        - ⚠ 원본 파일명이 숫자뿐(1.png…22.png)이면 문자열 정렬이라 1,10,11…로 섞인다 → 01…22 처럼 0 을 채운 이름으로 풀어서 변환(변환기 정렬을 바꾸면 기존 세트 번호가 밀리니 바꾸지 않음).
     3. 시트 확인: sheet_<slug>.png 를 직접 보고 번호별 그림을 확인. 부적절해 보이는 이미지는 번호를 사용자에게 보고. 대표 썸네일(thumb)은 지정이 없으면 세트를 잘 드러내는 한 장.
     4. 팩 설치: python _tools/dccon_install.py
         - 클라 팩 사본(GCB-26.3)·정본 GCB-resourcepack·리팩생성용 base/gcb 에 텍스처·모델·items 를 쓴다.
